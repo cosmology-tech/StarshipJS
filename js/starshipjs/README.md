@@ -75,6 +75,8 @@ await ConfigContext.init(configFile);
 
 ### Registry
 
+Using init for init the config and pass an optional customized registry fetcher.
+
 ```js
 import { useRegistry, ConfigContext } from 'starshipjs';
 import { join } from 'path';
@@ -82,15 +84,26 @@ import { join } from 'path';
 // Path to your YAML configuration file
 const configFile = join(__dirname, 'your-config.yaml');
 
-// using init for init the config and pass an optional customized registry fetcher.
+const fetcher = new ChainRegistryFetcher({
+  // your own options
+});
 
-// await ConfigContext.init(configFile, new ChainRegistryFetcher({
-//   // your own options
-// }));
+await ConfigContext.init(configFile, fetcher);
+```
 
-// or use `useRegistry` to get a registry fetcher.
+Or use `useRegistry` to get a registry fetcher.
 
-await ConfigContext.init(configFile, await useRegistry(configFile));
+
+```js
+import { useRegistry, ConfigContext } from 'starshipjs';
+import { join } from 'path';
+
+// Path to your YAML configuration file
+const configFile = join(__dirname, 'your-config.yaml');
+
+const fetcher = await useRegistry(configFile);
+
+await ConfigContext.init(configFile, fetcher);
 ```
 
 ## Chain Info
